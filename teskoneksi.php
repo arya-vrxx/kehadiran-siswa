@@ -1,3 +1,3 @@
 <?php
-require_once 'Config/database.php';
+require_once 'config/database.php';
 echo "Koneksi berhasil";

@@ -1,0 +1,32 @@
+body { margin: 0; font-family: sans-serif; }
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: #eee;
+    border-bottom: 1px solid #ccc;
+}
+
+.wrapper { display: flex; }
+
+.sidebar {
+    width: 180px;
+    padding: 15px;
+    border-right: 1px solid #ccc;
+}
+.sidebar a {
+    display: block;
+    padding: 8px;
+    color: #000;
+    text-decoration: none;
+}
+.sidebar a.aktif { background: #ddd; font-weight: bold; }
+
+.content { flex: 1; padding: 20px; }
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
