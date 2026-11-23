@@ -10,37 +10,16 @@ tanpa menggunakan framework.
 
 ## Fitur Aplikasi
 
-  -----------------------------------------------------------------------
-  No.                     Fitur                   Keterangan
-  ----------------------- ----------------------- -----------------------
-  1                       Login                   Masuk ke dalam aplikasi
-                                                  menggunakan akun admin.
-
-  2                       Logout                  Keluar dari akun yang
-                                                  sedang digunakan.
-
-  3                       Kelola Kelas            Menambah, melihat,
-                                                  mengubah, dan menghapus
-                                                  data kelas.
-
-  4                       Kelola Siswa            Mengatur data siswa,
-                                                  mulai dari menambah
-                                                  sampai menghapus data.
-
-  5                       Simulasi Tap Kartu      Mencatat kehadiran
-                                                  siswa melalui simulasi
-                                                  tap kartu RFID.
-
-  6                       Rekap Presensi          Melihat dan menghapus
-                                                  data riwayat presensi.
-
-  7                       Pencarian Siswa         Memudahkan admin
-                                                  mencari data siswa.
-
-  8                       Filter Presensi         Mencari dan menyaring
-                                                  data presensi sesuai
-                                                  kebutuhan.
-  -----------------------------------------------------------------------
+| No. | Fitur | Keterangan |
+|-----|-------|------------|
+| 1 | Login | Masuk ke dalam aplikasi menggunakan akun admin. |
+| 2 | Logout | Keluar dari akun yang sedang digunakan. |
+| 3 | Kelola Kelas | Menambah, melihat, mengubah, dan menghapus data kelas. |
+| 4 | Kelola Siswa | Mengatur data siswa, mulai dari menambah sampai menghapus data. |
+| 5 | Simulasi Tap Kartu | Mencatat kehadiran siswa melalui simulasi tap kartu RFID. |
+| 6 | Rekap Presensi | Melihat dan menghapus data riwayat presensi. |
+| 7 | Pencarian Siswa | Memudahkan admin mencari data siswa. |
+| 8 | Filter Presensi | Mencari dan menyaring data presensi sesuai kebutuhan. |
 
 ## Kebutuhan Sistem
 
@@ -70,9 +49,9 @@ berikut:
 
 Berikut akun yang sudah disediakan untuk mencoba aplikasi:
 
-  Username   Password
-  ---------- ----------
-  admin      admin123
+| Username | Password |
+|----------|----------|
+| admin | admin123 |
 
 **Catatan:** Ganti password bawaan jika aplikasi digunakan di luar
 keperluan demo.
