@@ -43,7 +43,7 @@ berikut:
     dan data kelas.
 5.  Jalankan Apache dan MySQL melalui XAMPP.
 6.  Buka aplikasi melalui browser dengan alamat
-    `http://localhost/nama-folder/login.php`.
+    `http://localhost/uuk-s1/login.php`.
 
 ## Akun Login
 
