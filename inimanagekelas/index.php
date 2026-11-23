@@ -31,7 +31,7 @@ require "../layout/header.php";
     <p><strong><?php echo htmlspecialchars($pesan); ?></strong></p>
 <?php endif; ?>
 
-<p><a href="tambah.php">+ Tambah Kelas</a></p>
+<p><a href="tambahkelas.php">+ Tambah Kelas</a></p>
 
 <table border="1" cellpadding="5">
     <tr>

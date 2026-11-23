@@ -1,0 +1,108 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["user"])) {
+    header("Location: ../login.php");
+    exit;
+}
+
+require_once "../config/database.php";
+require_once "../models/siswa.php";
+require_once "../models/kelas.php";
+
+$pdo   = (new Database())->getConnection();
+$siswa = new Siswa($pdo);
+$kelas = new Kelas($pdo);
+
+// Ambil data siswa yang mau diedit (NISN adalah teks, jangan di-int)
+$nisn = $_GET["nisn"] ?? "";
+$data = $siswa->find($nisn);
+
+if (!$data) {
+    $_SESSION["pesan"] = "Siswa tidak ditemukan.";
+    header("Location: index.php");
+    exit;
+}
+
+$dataKelas = $kelas->all();
+
+$errors  = [];
+$nama    = $data["Nama"];
+$alamat  = $data["Alamat"] ?? "";
+$idKelas = $data["id_kelas"];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama    = trim($_POST["nama"] ?? "");
+    $alamat  = trim($_POST["alamat"] ?? "");
+    $idKelas = $_POST["id_kelas"] ?? "";
+
+    // Validasi nama
+    if ($nama === "") {
+        $errors[] = "Nama wajib diisi.";
+    } elseif (mb_strlen($nama) > 100) {
+        $errors[] = "Nama maksimal 100 karakter.";
+    }
+
+    // Validasi alamat (boleh kosong)
+    if (mb_strlen($alamat) > 250) {
+        $errors[] = "Alamat maksimal 250 karakter.";
+    }
+
+    // Validasi kelas
+    if ($idKelas === "") {
+        $errors[] = "Kelas wajib dipilih.";
+    } elseif (!ctype_digit((string) $idKelas) || !$kelas->find($idKelas)) {
+        $errors[] = "Kelas tidak valid.";
+    }
+
+    if (empty($errors)) {
+        $siswa->update($nisn, $nama, $alamat, (int) $idKelas);
+        $_SESSION["pesan"] = "Siswa berhasil diubah.";
+        header("Location: index.php");
+        exit;
+    }
+}
+
+$judul = "Edit Siswa";
+$base  = "../";
+$menu  = "siswa";
+
+require "../layout/header.php";
+?>
+
+<h2>Edit Siswa</h2>
+
+<?php if (!empty($errors)): ?>
+    <ul style="color:red">
+        <?php foreach ($errors as $e): ?>
+            <li><?php echo htmlspecialchars($e); ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<form method="post">
+    NISN (tidak bisa diubah):<br>
+    <input type="text" value="<?php echo htmlspecialchars($nisn); ?>" readonly><br><br>
+
+    Nama:<br>
+    <input type="text" name="nama" value="<?php echo htmlspecialchars($nama); ?>"><br><br>
+
+    Alamat:<br>
+    <textarea name="alamat" rows="3" cols="30"><?php echo htmlspecialchars($alamat); ?></textarea><br><br>
+
+    Kelas:<br>
+    <select name="id_kelas">
+        <option value="">-- Pilih Kelas --</option>
+        <?php foreach ($dataKelas as $k): ?>
+            <option value="<?php echo $k["id_kelas"]; ?>"
+                <?php echo ((string) $idKelas === (string) $k["id_kelas"]) ? "selected" : ""; ?>>
+                <?php echo htmlspecialchars($k["nama_kelas"] ?? ""); ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
+
+    <button type="submit">Simpan Perubahan</button>
+    <a href="index.php">Batal</a>
+</form>
+
+<?php require "../layout/footer.php"; ?>
