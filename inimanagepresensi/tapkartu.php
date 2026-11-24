@@ -33,6 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!$dataSiswa) {
             $error = "Kartu tidak dikenal: NISN tidak terdaftar.";
+        } elseif ($presensi->sudahTapHariIni($nisn)) {                          
+            $error = $dataSiswa["Nama"] . " sudah tercatat hadir hari ini.";    
         } else {
             // Setiap tap dicatat sebagai satu baris presensi
             $presensi->create($nisn);

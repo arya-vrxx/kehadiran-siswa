@@ -3,7 +3,7 @@ require_once __DIR__ . "/BaseModel.php";
 
 class Presensi extends BaseModel
 {
-    protected string $table      = "presensi";
+    protected string $table = "presensi";
     protected string $primaryKey = "id";
 
     // Catat satu tap. Tanggal_Waktu diisi otomatis oleh database (default CURRENT_TIMESTAMP)
@@ -13,6 +13,17 @@ class Presensi extends BaseModel
         return $stmt->execute([$nisn]);
     }
 
+    
+    // Sudah tap hari ini?
+    public function sudahTapHariIni(string $nisn): bool {
+    
+        $stmt = $this->pdo->prepare(
+            "SELECT COUNT(*) FROM presensi WHERE NISN = ? AND DATE(Tanggal_Waktu) = CURDATE()"
+        );
+        $stmt->execute([$nisn]);
+        return (int) $stmt->fetchColumn() > 0;
+    }
+    
     // Rekap presensi (JOIN presensi -> siswa -> kelas), bisa dicari dan difilter
     public function rekap(string $keyword = "", string $tanggal = "", string $idKelas = ""): array
     {
@@ -22,21 +33,21 @@ class Presensi extends BaseModel
                 LEFT JOIN siswa ON presensi.NISN = siswa.NISN
                 LEFT JOIN kelas ON siswa.id_kelas = kelas.id_kelas";
 
-        $where  = [];
+        $where = [];
         $params = [];
 
         // Setiap filter hanya ditambahkan kalau diisi
         if ($keyword !== "") {
-            $where[]  = "(siswa.Nama LIKE ? OR presensi.NISN LIKE ?)";
+            $where[] = "(siswa.Nama LIKE ? OR presensi.NISN LIKE ?)";
             $params[] = "%" . $keyword . "%";
             $params[] = "%" . $keyword . "%";
         }
         if ($tanggal !== "") {
-            $where[]  = "DATE(presensi.Tanggal_Waktu) = ?";
+            $where[] = "DATE(presensi.Tanggal_Waktu) = ?";
             $params[] = $tanggal;
         }
         if ($idKelas !== "") {
-            $where[]  = "siswa.id_kelas = ?";
+            $where[] = "siswa.id_kelas = ?";
             $params[] = $idKelas;
         }
 
