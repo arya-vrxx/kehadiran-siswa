@@ -34,7 +34,7 @@ require "../layout/header.php";
     <p><strong><?php echo htmlspecialchars($pesan); ?></strong></p>
 <?php endif; ?>
 
-<p><a href="tambah.php">+ Tambah Siswa</a></p>
+<p><a href="tambahsiswa.php">+ Tambah Siswa</a></p>
 
 <form method="get">
     Cari (nama/NISN):

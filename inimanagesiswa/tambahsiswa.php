@@ -34,8 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "NISN wajib diisi.";
     } elseif (!ctype_digit($nisn)) {
         $errors[] = "NISN hanya boleh berisi angka.";
-    } elseif (strlen($nisn) > 10) {
-        $errors[] = "NISN maksimal 10 digit.";
+    } elseif (strlen($nisn) !== 10) {
+        $errors[] = "NISN harus tepat 10 digit.";
     } elseif ($siswa->find($nisn)) {
         $errors[] = "NISN sudah terdaftar.";
     }
