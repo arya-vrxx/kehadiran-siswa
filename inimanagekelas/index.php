@@ -8,11 +8,14 @@ if (!isset($_SESSION["user"])) {
 
 require_once "../config/database.php";
 require_once "../models/kelas.php";
+require_once "../models/siswa.php";
+
 
 $pdo   = (new Database())->getConnection();
 $kelas = new Kelas($pdo);
+$jumlah = new Siswa($pdo);
 
-$dataKelas = $kelas->all();
+$dataKelas = $kelas->allWithTotalPresensi();
 
 // Pesan dari halaman tambah/edit/hapus (tampil sekali saja)
 $pesan = $_SESSION["pesan"] ?? "";
@@ -38,12 +41,13 @@ require "../layout/header.php";
         <th>No</th>
         <th>Nama Kelas</th>
         <th>Jurusan</th>
+        <th>Total</th>
         <th>Aksi</th>
     </tr>
 
     <?php if (empty($dataKelas)): ?>
     <tr>
-        <td colspan="4">Belum ada data kelas.</td>
+        <td colspan="5">Belum ada data kelas.</td>
     </tr>
     <?php endif; ?>
 
@@ -52,6 +56,7 @@ require "../layout/header.php";
         <td><?php echo $i + 1; ?></td>
         <td><?php echo htmlspecialchars($row["nama_kelas"] ?? ""); ?></td>
         <td><?php echo htmlspecialchars($row["jurusan"] ?? ""); ?></td>
+        <td><?php echo (int) $row["jumlah_presensi"]; ?></td>
         <td>
             <a href="edit.php?id=<?php echo $row["id_kelas"]; ?>">Edit</a>
 
