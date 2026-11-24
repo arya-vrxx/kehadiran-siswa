@@ -39,10 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Setiap tap dicatat sebagai satu baris presensi
             $presensi->create($nisn);
 
+            // Ambil jam dari baris yang baru disimpan, bukan dari jam PHP
+            $idBaru = $pdo->lastInsertId();
+            $log    = $presensi->find($idBaru);
+            $waktu  = date("H:i:s", strtotime($log["Tanggal_Waktu"]));
+
             $dataKelas = $kelas->find($dataSiswa["id_kelas"]);
             $namaKelas = $dataKelas["nama_kelas"] ?? "-";
 
-            $_SESSION["pesan"] = $dataSiswa["Nama"] . " (" . $namaKelas . ") tercatat hadir pada " . date("H:i:s") . ".";
+            $_SESSION["pesan"] = $dataSiswa["Nama"] . " (" . $namaKelas . ") tercatat hadir pada " . $waktu . ".";
             header("Location: tapkartu.php");
             exit;
         }
